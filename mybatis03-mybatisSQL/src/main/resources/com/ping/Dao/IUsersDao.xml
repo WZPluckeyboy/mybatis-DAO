@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ping.Dao.IUsersDao">
+    <!--配置查询所有-->
+    <!-- id取值为方法名-->
+    <select id="findAll" resultType="com.ping.domain.Users">
+        select * from user;
+    </select>
+    <!--根据Id查-->
+    <select id="findById" parameterType="Integer" resultType="com.ping.domain.Users" >
+        select * from user where id=#(uId);
+    </select>
+    <!--//根据name查-->
+    <select id="findByName" parameterType="String" resultType= "com.ping.domain.Users">
+          select * from user where userName like '%${value}%';
+    </select>
+    <!--根据条件查询-->
+     <!--<select id="findUserByCondition" resultType="com.ping.domain.Users" parameterType="user">
+         select * from user where 1=1
+         <if test="username!=null">
+           and username=#{username}
+         </if>
+         <if test="sex!=null">
+             and sex=#{sex}
+         </if>
+     </select>-->
+    <select id="findUserByCondition" resultType="com.ping.domain.Users" parameterType="user">
+        select * from user
+        <where>
+        <if test="username!=null">
+            and username=#{username}
+        </if>
+        <if test="sex!=null">
+            and sex=#{sex}
+        </if>
+        </where>
+    </select>
+    <!--根据Query中id集合查询列表-->
+    <select id="findUserInIds" resultType="user" parameterType="com.ping.domain.QueryVo">
+        select * from user
+        <where >
+            <if test="ids !=null and ids.size()>0">
+               <foreach collection="ids"  open="and id in(" close=")" item="id" separator=",">
+                   #{id}
+               </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>
