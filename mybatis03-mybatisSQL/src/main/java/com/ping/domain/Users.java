@@ -1,6 +1,7 @@
 package com.ping.domain;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Users  implements Serializable {
    private Integer  id;
@@ -8,6 +9,16 @@ public class Users  implements Serializable {
    private Date birthday;
    private String sex;
    private String address;
+   //一对多关系映射，主表实体包含从表实体集合
+    private List<account> list;
+
+    public List<account> getList() {
+        return list;
+    }
+
+    public void setList(List<account> list) {
+        this.list = list;
+    }
 
     public Integer getId() {
         return id;

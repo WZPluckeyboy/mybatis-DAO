@@ -3,10 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ping.Dao.IUsersDao">
+    <resultMap id="userAccountMap" type="com.ping.domain.Users">
+      <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="address" column="address"></result>
+        <result property="sex" column="sex"></result>
+        <result property="birthday" column="birthday"></result>
+        <collection property="list" ofType="com.ping.domain.account">
+            <id  column=" aid" property="id"></id>
+            <result column="uid" property="uid"></result>
+            <result column="money" property="money"></result>
+
+        </collection>
+    </resultMap>
     <!--配置查询所有-->
     <!-- id取值为方法名-->
-    <select id="findAll" resultType="com.ping.domain.Users">
-        select * from user;
+    <select id="findAll" resultMap="userAccountMap">
+        select * from user u left outer join account a on u.id=a.uid;
     </select>
     <!--根据Id查-->
     <select id="findById" parameterType="Integer" resultType="com.ping.domain.Users" >
